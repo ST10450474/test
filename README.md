@@ -524,6 +524,12 @@ This means neither Android nor API code is built or packaged unless both test su
 
 ---
 
+### Proof of Workflow Success in Release branch
+
+
+
+<img width="1432" height="440" alt="image" src="https://github.com/user-attachments/assets/4ff23a39-5596-456d-ac0d-5ebf19aea880" />
+
 ## 13. Security Considerations
 
 | Concern | Approach |
