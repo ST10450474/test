@@ -606,7 +606,8 @@ AI tool usage and third-party software usage for this project are disclosed in f
 - **Date:** 21 September 2026
 - **Link:** https://claude.ai/share/a13669c2-04c9-4631-a817-ea1c757a1d4e
 
-**Title:** Biometrics in AppCompatActivity vs Fragment  
+**Title:** Biometrics in AppCompatActivity vs Fragment 
+
 •	**Section:** POE Part 3, multi-language implementation  
 •	**AI Tool Used:** Claude   
 •	**Purpose:** Determine if biometrics will be affected by switching to AppCompatActivity for multi-language support.  
