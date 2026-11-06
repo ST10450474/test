@@ -5,6 +5,9 @@
 **PROG7314: Programming 3D | POE Part 3: Final POE**
 **Group: Cipher**
 
+<img width="114" height="121" alt="image" src="https://github.com/user-attachments/assets/fa32641e-9598-4a55-9926-2d5a4da3d292" />
+
+<img width="458" height="815" alt="image" src="https://github.com/user-attachments/assets/d8d268bf-19ca-414f-9501-1a964872efd8" />
 
 | | |
 |---|---|
@@ -67,6 +70,8 @@ This is the final submission. It covers all of the core minimum requirements plu
 | Friends, shared habits and groups (custom) | ✅ | Friend requests, habits shared with a friend or a group |
 
 ✅ = working in this submission
+
+<img width="456" height="783" alt="image" src="https://github.com/user-attachments/assets/019d121a-279f-45c2-b62d-196fd61a757b" />
 
 
 ---
@@ -184,6 +189,15 @@ A full UML diagram of this architecture is included in the Part 1 Planning & Des
 
 The app has an authentication and onboarding flow (Launch, Login, Biometric setup, Avatar choice, Habit preferences, Display name), followed by a main shell with five bottom-navigation tabs: **Home, Insights, Avatar, Friends and Profile**. Settings is reachable from the main shell.
 
+<img width="458" height="782" alt="image" src="https://github.com/user-attachments/assets/bf41a1a7-e2ed-4957-9fab-c5d3587aa552" />
+
+
+### 5.3 Deployment
+
+The REST API is deployed as a web service on Render and connects to a PostgreSQL database and object storage hosted on Neon. Environment variables (database URLs, Firebase service account, storage keys) are configured in the Render dashboard, so no secrets are stored in the repository. The live Swagger documentation is available at `https://<your-service>.onrender.com/api/docs`.
+
+<img width="1912" height="492" alt="Screenshot 2026-11-06 140439" src="https://github.com/user-attachments/assets/4c0e82f2-5e24-49c1-a605-e622acf0d0eb" />
+
 ---
 
 ## 6. Data Design
@@ -274,6 +288,7 @@ Room migrations (1 to 2 and 2 to 3) preserve existing user data between app vers
 - The wardrobe catalogue is returned by `GET /api/accessories`, with each item marked locked or unlocked for the user's stage. Equipping an item (`PUT /api/accessories/equip`) is **rejected with 403** if the user has not reached the required stage.
 - If Firestore is unreachable, the catalogue still loads and nothing is shown as equipped.
 
+<img width="461" height="782" alt="image" src="https://github.com/user-attachments/assets/a93c6252-c977-4bbf-af18-7285d4f8e18b" />
 
 
 
@@ -281,13 +296,16 @@ Room migrations (1 to 2 and 2 to 3) preserve existing user data between app vers
 
 The Insights screen shows a weekly mood chart that the user can page through week by week. The server also compares the user's average mood on days a habit **was** completed against days it **was not**, and returns the top three differences. To avoid misleading conclusions, a finding is only shown when there are **at least two days on each side**. Cached copies of moods and completions keep this screen usable offline.
 
+<img width="455" height="781" alt="image" src="https://github.com/user-attachments/assets/b8d61d5e-b896-4433-b18e-dec8cd22bad1" />
 
 
 
 ### 7.6 Friends, shared habits and groups
 
 Friend requests move from `PENDING` to `ACCEPTED`, and the API prevents a reverse request being created while one already exists. Shared habits (between two friends) and group habits (within a named group) define a target (times per day, week or month) and a date range. Each member ticks their own completions and the other members are notified.
-
+| Friends Screen | Shared habits Screen |
+|---|---|
+| <img width="455" height="787" alt="image" src="https://github.com/user-attachments/assets/d6ff7fdf-53e6-43a9-b4db-e531b45a5dfd" /> | <img width="460" height="783" alt="image" src="https://github.com/user-attachments/assets/dbdf9d6d-e446-41c0-a248-b44528561bec" /> |
 
 
 
