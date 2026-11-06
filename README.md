@@ -614,6 +614,7 @@ AI tool usage and third-party software usage for this project are disclosed in f
 •	**Link:**  https://claude.ai/share/2572995e-99ae-4cf9-88f0-210cac0d1145   
 
 **Title:** Releasing a keystore in Android Studio  
+
 •	**Section:** POE Part 3, playstore preparation  
 •	**AI Tool Used:** Claude  
 •	**Purpose:** To check if steps were correct.  
@@ -621,6 +622,7 @@ AI tool usage and third-party software usage for this project are disclosed in f
 •	**Link:** https://claude.ai/share/52e9ad55-42b5-4e62-9556-7924f0672365  
 
 **Title:** Integrating biometrics in Android app  
+
 •	**Section:** POE Part 3, biometric authentication  
 •	**AI Tool Used:** Claude  
 •	**Purpose:** How to implement biometrics  
@@ -628,6 +630,7 @@ AI tool usage and third-party software usage for this project are disclosed in f
 •	**Link:** https://claude.ai/share/2dca5fd4-5071-4ac7-ae0a-e4593bc7b84a   
 
 **Title:** FCM Tokens and Running on an emulator  
+
 •	**Section:** POE Part 3, Friends push notifications  
 •	**AI Tool Used:** Claude  
 •	**Purpose:** Why it could be an issue?  
