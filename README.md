@@ -1,11 +1,10 @@
-# 🌸 Bloom: Every Petal Counts
+# <img width="114" height="121" alt="image" src="https://github.com/user-attachments/assets/fa32641e-9598-4a55-9926-2d5a4da3d292" />  Bloom: Every Petal Counts
 
 ## Technical Report
 
 **PROG7314: Programming 3D | POE Part 3: Final POE**
 **Group: Cipher**
 
-<img width="114" height="121" alt="image" src="https://github.com/user-attachments/assets/fa32641e-9598-4a55-9926-2d5a4da3d292" />  
 
 <img width="229" height="408" alt="image" src="https://github.com/user-attachments/assets/d8d268bf-19ca-414f-9501-1a964872efd8" />
 
