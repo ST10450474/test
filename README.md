@@ -469,13 +469,8 @@ Screenshots showing the unit test suites passing locally.
 **All Android unit tests**
 <img width="763" height="130" alt="image" src="https://github.com/user-attachments/assets/45c9a525-13e9-4689-8903-19bb21e308bf" />
 
-
-
 #### REST API unit tests (`npm test`)
 <img width="431" height="129" alt="image" src="https://github.com/user-attachments/assets/73060bc1-163e-4855-8c78-7828bbb0207f" />
-
-
-<img width="458" height="363" alt="image" src="https://github.com/user-attachments/assets/3b8d8bb8-5599-48e4-99bd-105b2d9d866c" />
 
 ---
 
@@ -552,7 +547,7 @@ The app ships with English and isiZulu string resources (`res/values/strings.xml
 
 | English | isiZulu |
 |---|---|
-| *(keep your existing English Home screenshot here)* | *(keep your existing isiZulu Home screenshot here)* |
+| <img width="250" alt="Home screen in English" src="https://github.com/user-attachments/assets/17d4b684-5d84-4917-ab87-6c9002a11085" /> | <img width="250" alt="Home screen in isiZulu" src="https://github.com/user-attachments/assets/0ec19cf8-efff-4cd9-88cc-b881e08af02f" /> |
 
 *NB: habit names remain in English because they are user input data read directly from the database.
 
