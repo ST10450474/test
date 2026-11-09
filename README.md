@@ -30,11 +30,11 @@ Only the backend is scanned (`projectBaseDir: hustlehub-backend`).
 | Measure | Result | What it means |
 |---|---|---|
 | **Quality Gate** | **Passed** | New code meets the gate's conditions, including at least 80% coverage on new code |
-| **Security** | [rating, open issues] | Vulnerabilities such as injection |
-| **Reliability** | [rating, open issues] | Bugs: code likely to misbehave |
-| **Maintainability** | [rating, open issues] | Code smells: code that is harder to maintain |
-| **Coverage** | [overall %] | Share of lines executed by the unit tests |
-| **Duplications** | [%] | Share of repeated code |
+| **Security** | A, 0 open issues | Vulnerabilities such as injection |
+| **Reliability** | A, 0 open issues | Bugs: code likely to misbehave |
+| **Maintainability** | A, 0 open issues | Code smells: code that is harder to maintain |
+| **Coverage** | 77.3% (on 2.7k lines to cover) | Share of lines executed by the unit tests |
+| **Duplications** | 1.7% (on 3.1k lines) | Share of repeated code |
 
 Locally, `npm run test:coverage` runs **103 unit tests in 13 files (all passing)** and reports **80.8% statement coverage** for the files the tests load. SonarQube's overall figure is lower, because it also counts files that no unit test loads (the routes, `app.js` and `gigController.js`), which are only exercised by the Newman tests.
 
