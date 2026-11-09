@@ -41,14 +41,14 @@ Locally, `npm run test:coverage` runs **103 unit tests in 13 files (all passing)
 ### Evidence
 | Evidence | Screenshot |
 |---|---|
-| Pipeline with the coverage and SonarQube steps passing | ![Pipeline](Screenshots/SonarQube/pipeline-green.png) |
-| Quality Gate failing: 0% coverage on new code | ![Gate failed](Screenshots/SonarQube/gate-failed.png) |
-| Quality Gate passing after tests were added | ![Gate passed](Screenshots/SonarQube/gate-passed.png) |
-| SonarQube Summary dashboard | ![Summary](Screenshots/SonarQube/summary.png) |
-| Data flow for the `role` finding | ![Issue flow](Screenshots/SonarQube/issue-flow.png) |
-| Sonar showing the new tests covering the changed lines | ![Covered code](Screenshots/SonarQube/covered-code.png) |
-| Issue marked false positive with our comment | ![False positive](Screenshots/SonarQube/false-positive.png) |
-| Coverage by file | ![Coverage](Screenshots/SonarQube/coverage.png) |
+| Pipeline with the coverage and SonarQube steps passing | <img width="500" height="281" alt="Pipeline passing with coverage and SonarQube steps" src="https://github.com/user-attachments/assets/de3f168a-8258-4b51-8387-e500be68fcc6" /> |
+| Quality Gate failing: 0% coverage on new code | <img width="500" height="281" alt="Quality Gate failed on 0% coverage of new code" src="https://github.com/user-attachments/assets/a7a08f94-9adb-4cbf-b47e-da6d6137f53c" /> |
+| Quality Gate passing after tests were added | <img width="500" height="281" alt="Quality Gate passed after tests were added" src="https://github.com/user-attachments/assets/55811739-8932-479a-a15f-f833c3852115" /> |
+| SonarQube Summary dashboard | <img width="500" height="281" alt="SonarQube Summary dashboard, Overall Code" src="https://github.com/user-attachments/assets/f67b6998-e45a-4b22-a5f0-566af46297ba" /> |
+| Data flow for the `role` finding | <img width="500" height="281" alt="Data flow for the role finding" src="https://github.com/user-attachments/assets/6c0700c2-02f7-49f3-8164-f2aa6b05d757" /> |
+| Sonar showing the new tests covering the changed lines | <img width="500" height="281" alt="Covered code highlighted by SonarQube" src="https://github.com/user-attachments/assets/ec153787-8112-4bae-953f-dc83ede6a5c9" /> |
+| Issue marked false positive with our comment | <img width="500" height="281" alt="Issue marked false positive with comment" src="https://github.com/user-attachments/assets/3cc10216-d472-4849-b4ff-66fde182ec08" /> |
+| Coverage by folder | <img width="500" height="281" alt="Coverage by folder" src="https://github.com/user-attachments/assets/83cf1ff3-063a-4704-8bd0-a97453c2022c" /> |
 
 ### Issues found and how we handled them
 The first automatic scan of the whole repository reported 34 issues. The CI scan covers only the backend and reported **9**. We did not change code just to make warnings disappear. For each one we opened the data flow, read the explanation and decided whether the problem was real.
