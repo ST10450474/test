@@ -859,7 +859,7 @@ The final PoE reuses the Part 1 and 2 foundations: the mesh decides a node is **
 ## 10. Demo Videos
 
 - Part 1: https://youtu.be/7QHhyl1f91w
-- Part 2: _add link_
+- Part 2: https://youtu.be/gaW7_h13Xx8
 - Final PoE: _add link_
 
 ---
