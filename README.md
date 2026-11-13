@@ -892,7 +892,7 @@ The final PoE reuses the Part 1 and 2 foundations: the mesh decides a node is **
 
 - Part 1: https://youtu.be/7QHhyl1f91w
 - Part 2: https://youtu.be/gaW7_h13Xx8
-- Final PoE: _add link_
+- Final PoE: https://youtu.be/gqrtkMMv4go
 
 ---
 
@@ -916,7 +916,7 @@ Xiao, R., Wu, Z. and Hamari, J., 2022. Internet-of-Gamification: a review of lit
 
 ## 12. Updates Made From Lecturer Feedback
 
-The full table (feedback, what changed and where) is in [`FEEDBACK_UPDATES.md`](FEEDBACK_UPDATES.md). Summary:
+The full table (feedback, what changed and where) is in ). Summary:
 
 | Feedback | Update |
 |----------|--------|
