@@ -817,7 +817,7 @@ Hand-checked against the 14 seeded links:
 | Power saved by idling the other 5 links | 29.5, which is **54%** |
 | MST with Moisture Sensor A failed | 9 of 10 nodes spanned, cost 27.1, failed node listed under "Not reached" |
 
-The MST links in order of selection are: gateway–Sensor A (4.0), Sensor A–Meter 2 (1.5), Sensor A–Sensor B (2.0), Sensor B–Meter 3 (1.8), Sensor B–Sensor C (5.0), Sensor C–Pump A (1.2), gateway–Sensor D (6.0), Sensor D–Relay B (1.4), Relay B–Meter 1 (2.2).
+The MST links in order of selection are: gateway-Sensor A (4.0), Sensor A-Meter 2 (1.5), Sensor A-Sensor B (2.0), Sensor B-Meter 3 (1.8), Sensor B-Sensor C (5.0), Sensor C-Pump A (1.2), gateway-Sensor D (6.0), Sensor D-Relay B (1.4), Relay B-Meter 1 (2.2).
 
 #### An honest trade-off, shown in the UI
 
@@ -892,7 +892,7 @@ The final PoE reuses the Part 1 and 2 foundations: the mesh decides a node is **
 
 - Part 1: https://youtu.be/7QHhyl1f91w
 - Part 2: https://youtu.be/gaW7_h13Xx8
-- Final PoE: https://youtu.be/gqrtkMMv4go
+- Final PoE: _add link_
 
 ---
 
@@ -904,19 +904,19 @@ Cormen, T.H., Leiserson, C.E., Rivest, R.L. and Stein, C., 2022. Introduction to
 
 Lavalle, A., Teruel, M.A., Maté, A. and Trujillo, J., 2020. Fostering sustainability through visualisation techniques for real-time IoT data: a case study based on gas turbines for electricity production. Sensors, 20(16), Article 4556. Available: https://doi.org/10.3390/s20164556
 
-Prim, R.C., 1957. Shortest connection networks and some generalizations. Bell System Technical Journal, 36(6), pp.1389–1401.
+Prim, R.C., 1957. Shortest connection networks and some generalizations. Bell System Technical Journal, 36(6), pp.1389-1401.
 
 Stahmann, P., Rodda, A., Nebel, M., van der Staay, A., Janiesch, C. and Teuteberg, F., 2025. Advanced analytics in real-time operational dashboards in smart manufacturing: effects on users' cognitive load and task load. Enterprise Information Systems, [online], Article 2593245. Available: https://doi.org/10.1080/12460125.2025.2593245
 
 Voutsas, F., Violos, J. and Leivadeas, A., 2024. Mitigating alert fatigue in cloud monitoring systems: a machine learning perspective. Computer Networks, 250, Article 110543. Available: https://doi.org/10.1016/j.comnet.2024.110543
 
-Xiao, R., Wu, Z. and Hamari, J., 2022. Internet-of-Gamification: a review of literature on IoT-enabled gamification for user engagement. International Journal of Human–Computer Interaction, 38(12), pp.1113–1137. Available: https://doi.org/10.1080/10447318.2021.1990517
+Xiao, R., Wu, Z. and Hamari, J., 2022. Internet-of-Gamification: a review of literature on IoT-enabled gamification for user engagement. International Journal of Human-Computer Interaction, 38(12), pp.1113-1137. Available: https://doi.org/10.1080/10447318.2021.1990517
 
 ---
 
 ## 12. Updates Made From Lecturer Feedback
 
-The full table (feedback, what changed and where) is in ). Summary:
+The full table (feedback, what changed and where) is in [`FEEDBACK_UPDATES.md`](FEEDBACK_UPDATES.md). Summary:
 
 | Feedback | Update |
 |----------|--------|
