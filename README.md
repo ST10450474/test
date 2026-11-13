@@ -7,7 +7,7 @@ Smart-X is a simulated Internet of Things (IoT) monitoring ecosystem for distrib
 
 | Part | Module | What it adds |
 |------|--------|--------------|
-| 1 | Sensor Data Ingestion and Telemetry | Sensor registration, validation, file attachments, alert triage, engagement features |
+| 1 | Sensor Data Ingestion and Telemetry | Sensor registration, validation, encrypted file attachments, alert triage, engagement features (daily challenge, streaks, missions) |
 | 2 | Real-Time Command Stream and History | Queues, priority queue, stack-based undo, dictionaries, HashSet fault registry, predictive suggestions |
 | **Final** | **Network Topology and Mesh Routing** | **AVL tree history queries, mesh graph, BFS routing and self-healing, min-heap, Prim's minimum spanning tree** |
 
@@ -26,6 +26,7 @@ Smart-X is a simulated Internet of Things (IoT) monitoring ecosystem for distrib
 9. [Troubleshooting](#9-troubleshooting)
 10. [Demo Videos](#10-demo-videos)
 11. [References](#11-references)
+12. [Updates Made From Lecturer Feedback](#12-updates-made-from-lecturer-feedback)
 
 ---
 
@@ -44,6 +45,7 @@ Smart-X is a simulated Internet of Things (IoT) monitoring ecosystem for distrib
 │   ├── Data/                    Stores, pipeline, mesh network, history tree, pattern engine
 │   │   ├── MeshNetwork.cs       Mesh service: graph, BFS routing, MST, failures
 │   │   ├── TelemetryHistoryTree.cs  Per-sensor AVL trees of timestamped history
+│   │   ├── FileVault.cs         AES-256-GCM encryption for uploaded attachments
 │   │   └── ...
 │   ├── Endpoints/               Minimal API endpoint groups
 │   │   └── TopologyEndpoints.cs /api/mesh/* and /api/history/*
@@ -51,13 +53,14 @@ Smart-X is a simulated Internet of Things (IoT) monitoring ecosystem for distrib
 │   └── Program.cs
 ├── SmartX.Client/               Blazor WebAssembly frontend
 │   ├── Pages/                   Home, Dashboard, SensorIngestion, CommandStream, NetworkTopology, About
-│   ├── Services/                SmartXApiClient (typed HTTP client), page-state holders
+│   ├── Services/                SmartXApiClient (typed HTTP client), ApiSettings (validated connection settings), page-state holders
 │   ├── Dockerfile / nginx.conf
 │   └── wwwroot/appsettings.json ApiBaseUrl setting
 ├── SmartX.Shared/               Referenced by both API and client
 │   ├── Collections/             AvlTree, MinHeap, MeshGraph (+ BFS, Prim), queues, ring buffer
 │   ├── Dtos/  Models/  Validation/  Processing/
 ├── docker-compose.yml
+├── FEEDBACK_UPDATES.md          What changed after Part 1 and 2 feedback
 └── SmartX.slnx
 ```
 
@@ -138,10 +141,12 @@ Open http://localhost:5274.
 
 | Setting | File | Default | Purpose |
 |---------|------|---------|---------|
-| `ApiBaseUrl` | `SmartX.Client/wwwroot/appsettings.json` | `http://localhost:5216/` | Where the client finds the API |
+| `ApiBaseUrl` | `SmartX.Client/wwwroot/appsettings.json` | `http://localhost:5216/` | Where the client finds the API. Must be a valid http(s) address; if it is missing or invalid the client falls back to the default and shows a yellow warning banner |
+| `ApiTimeoutSeconds` | `SmartX.Client/wwwroot/appsettings.json` | `30` | How long the client waits for the API before giving up (1 to 300) |
+| `Uploads:EncryptionKey` | `SmartX.Api/appsettings.json` (optional) | generated | Base64 string of exactly 32 bytes used to encrypt attachments. If not set, a key is generated once into `SmartX.Api/App_Data/vault.key` |
 | `Cors:AllowedOrigins` | `SmartX.Api/appsettings.json` | `http://localhost:5274`, `https://localhost:7293` | Origins the API accepts calls from |
 
-If you change a port, change **both** settings so they agree.
+If you change a port, change **both** settings so they agree. The top bar shows a live **API online / offline** indicator that checks `/api/ping` every 10 seconds.
 
 ### 3.5 What happens on startup
 
@@ -149,6 +154,7 @@ If you change a port, change **both** settings so they agree.
 - A **telemetry simulator** keeps the seeded devices reporting, so the UI always has live data without any hardware.
 - The **mesh graph** is built from a seeded layout of 14 weighted links around a central gateway (`SMARTX-GATEWAY`).
 - All state is **in memory**. Restarting the API resets everything to the seeded state.
+- Uploaded attachments are the exception: the encrypted files and the encryption key live in `SmartX.Api/App_Data` (a Docker volume named `smartx-data`, ignored by Git). Without a volume or the key file, old files can no longer be opened after a restart.
 
 ---
 
@@ -161,8 +167,9 @@ The top navigation bar links to every page. The home page shows the three module
 1. Open **Sensor Ingestion**.
 2. Register a sensor: enter a MAC address (`AA:BB:CC:DD:EE:01`), choose a deployment location (for example `Facility A > Zone 1 > Sub-Zone B`) and a category (Environmental, Power, Actuator). Invalid MACs and locations are rejected with a clear message.
 3. Submit telemetry by hand for a registered device. Environmental readings are a fraction between 0.0 and 1.0, power readings are watts (integer).
-4. Attach a configuration file, log or photo to a sensor profile (`.txt`, `.log`, `.json`, `.csv`, `.cfg`, `.png`, `.jpg`, `.pdf` and a few others, up to 20 MB).
+4. Attach a configuration file, log or photo to a sensor profile (`.txt`, `.log`, `.json`, `.csv`, `.cfg`, `.png`, `.jpg`, `.pdf` and a few others, up to 20 MB). The file is streamed to the API and **encrypted (AES-256-GCM)** before it is stored. Click a file name in the list to download it; the API decrypts it on the way out.
 5. Use the **Dashboard** for the fleet health score, alert triage (acknowledge/resolve), streaks and missions.
+6. The Dashboard also has a **Daily Challenge** (for example "Acknowledge 2 alerts today") that changes every day and pays 30 XP once when completed, and a **Come back for** prompt showing the next streak reward (3, 7, 14 and 30 days).
 
 ### 4.2 Real-Time Command Stream and History (Part 2)
 
@@ -206,7 +213,9 @@ Base URL: `http://localhost:5216`
 | GET / POST | `/api/sensors` | List / register sensors |
 | GET | `/api/sensors/tree` | Valid deployment hierarchy |
 | GET | `/api/sensors/{mac}` | One sensor profile |
-| POST / GET | `/api/sensors/{mac}/upload` / `/files` | Multipart file attach / list |
+| POST | `/api/sensors/{mac}/upload` | Multipart file attach (encrypted at rest) |
+| GET | `/api/sensors/{mac}/files` | List attached file names |
+| GET | `/api/sensors/{mac}/files/{name}` | Decrypt and download one attachment |
 | POST | `/api/telemetry` | Submit a reading (`{"deviceMac":"...","rawValue":"0.42"}`) |
 | GET | `/api/telemetry/{mac}` | 50 most recent readings |
 | GET | `/api/alerts` | Visible alerts; `POST /api/alerts/{id}/acknowledge` and `/resolve` |
@@ -222,6 +231,22 @@ Base URL: `http://localhost:5216`
 ## 6. How to Test Each Feature
 
 Start the app first (see [section 3](#3-how-to-compile-and-run)) and open http://localhost:5274.
+
+### 6.0 Part 1 fixes: encryption, daily challenge, connection
+
+**Test encrypted uploads**
+1. Open **Sensor Ingestion**, choose a device and a small `.txt` file, then click **Upload**.
+2. Expected: "Uploaded" message, and the file appears in the list with a lock icon.
+3. Click the file name. Expected: the original text downloads and opens normally.
+4. Open `SmartX.Api/App_Data/uploads/<mac>/` (in Docker: `docker compose exec api ls /app/App_Data/uploads`). Expected: the stored file ends in `.enc` and is unreadable ciphertext.
+
+**Test the Daily Challenge**
+1. Open **Dashboard**. Expected: a **Daily challenge** card with today's goal and a progress bar.
+2. Do the task (for example acknowledge two alerts). Expected: the bar fills, the card turns green, and 30 XP is added once.
+
+**Test the connection indicator**
+1. Stop the API (`docker compose stop api`). Expected within 10 seconds: the top bar shows **API offline**, and forms say "Could not reach the Smart-X API" instead of crashing.
+2. Start it again (`docker compose start api`). Expected: the pill returns to **API online**.
 
 ### 6.1 Final PoE: Network Topology
 
@@ -836,7 +861,11 @@ The graph work is O(V + E) for BFS and O(E log V) for Prim's algorithm, and the 
 | Dictionary | `Dictionary<string, ...>` keyed by MAC | `SmartX.Api/Data` | O(1) device lookup per incoming packet |
 | Sorted collection | Per-device ordered logs | `SmartX.Api/Data` | Timeline rendered in timestamp order |
 | HashSet | Per-MAC fault sets and a disconnected set | `FaultRegistry` | Unique active faults, duplicate alerts blocked |
+| Encryption | `FileVault` (AES-256-GCM, 64 KB chunks) | `SmartX.Api/Data` | Attachments encrypted at rest without loading the whole file into memory |
+| Error handling | try/catch in every data, collection and validation class | All projects | Failures are logged and return a safe result or a clear error instead of crashing |
 | Prediction | `PatternEngine` | `SmartX.Api/Data` | Association rules, sequence tracking and trend forecasting for Suggested Actions |
+
+**Error handling.** Each public method in the API data classes, shared collections and validators wraps a private `...Core` method in a try/catch. The catch logs the error, then either returns a safe value (`false`, an empty list, a `(null, message)` result) or rethrows a clear `InvalidOperationException`. A global exception handler in `SmartX.Api/Program.cs` turns anything still uncaught into a plain "unexpected error" 500 response, and the client wrapper `SmartXApiClient` turns network failures into friendly messages.
 
 The final PoE reuses the Part 1 and 2 foundations: the mesh decides a node is **up** using the same 45-second `LastSeen` heartbeat the disconnect alerts use, node names come from the same device labels, and the history tree is fed from the same ingestion pipeline.
 
@@ -852,6 +881,9 @@ The final PoE reuses the Part 1 and 2 foundations: the mesh decides a node is **
 | `dotnet build` says the SDK is too old | Install the .NET 10 SDK (`dotnet --version` must show 10.x) |
 | `docker compose up` fails on build | Make sure Docker Desktop is running, then retry with `docker compose build --no-cache` |
 | Mesh or Command Stream looks empty after a restart | State is in memory. Wait a few seconds for the simulator and seeded data to load |
+| Yellow banner says `ApiBaseUrl` is invalid or not set | Fix `ApiBaseUrl` in `SmartX.Client/wwwroot/appsettings.json` (it must start with `http://` or `https://`). The client is using the default `http://localhost:5216/` meanwhile |
+| An attachment fails with "failed its integrity check" | The file was changed on disk, or the encryption key changed. Keep `App_Data/vault.key` (or the `Uploads:EncryptionKey` setting) the same between runs |
+| Attachments disappear after `docker compose down -v` | The `-v` flag deletes the `smartx-data` volume that holds them. Use plain `docker compose down` |
 | A node shows Offline instead of Failed | It stopped reporting for over 45 seconds (for example the API was paused). It recovers on its next reading |
 
 ---
@@ -879,3 +911,18 @@ Stahmann, P., Rodda, A., Nebel, M., van der Staay, A., Janiesch, C. and Teuteber
 Voutsas, F., Violos, J. and Leivadeas, A., 2024. Mitigating alert fatigue in cloud monitoring systems: a machine learning perspective. Computer Networks, 250, Article 110543. Available: https://doi.org/10.1016/j.comnet.2024.110543
 
 Xiao, R., Wu, Z. and Hamari, J., 2022. Internet-of-Gamification: a review of literature on IoT-enabled gamification for user engagement. International Journal of Human–Computer Interaction, 38(12), pp.1113–1137. Available: https://doi.org/10.1080/10447318.2021.1990517
+
+---
+
+## 12. Updates Made From Lecturer Feedback
+
+The full table (feedback, what changed and where) is in [`FEEDBACK_UPDATES.md`](FEEDBACK_UPDATES.md). Summary:
+
+| Feedback | Update |
+|----------|--------|
+| Add the DOI to references | DOIs added to the research report's reference list |
+| Incorrect connection string | `ApiSettings` validates `ApiBaseUrl`, applies a timeout, falls back with a visible warning; live API online/offline indicator |
+| Upload layout and "full encryption" | AES-256-GCM encryption at rest, files stored outside `wwwroot`, decrypting download endpoint, tidier upload form |
+| User must keep coming back | Daily Challenge, streak milestone rewards and a "Come back for" prompt |
+| Needs Home, About and Dashboard | Present in the top bar; About and Dashboard now link to the live Network Topology module |
+| try/catch in all classes | Added across the API, shared collections, validators, upload endpoints and client wrapper, plus a global exception handler |
