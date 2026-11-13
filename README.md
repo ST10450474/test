@@ -916,7 +916,7 @@ Xiao, R., Wu, Z. and Hamari, J., 2022. Internet-of-Gamification: a review of lit
 
 ## 12. Updates Made From Lecturer Feedback
 
-The full table (feedback, what changed and where) is in [`FEEDBACK_UPDATES.md`](FEEDBACK_UPDATES.md). Summary:
+The full table (feedback, what changed and where) is in. Summary:
 
 | Feedback | Update |
 |----------|--------|
